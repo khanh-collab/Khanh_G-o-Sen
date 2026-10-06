@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gạo & Sen Travel | Say yes to new adventure!</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* COLOR PALETTE INSPIRED BY BUCKETRAVEL */
+        :root {
+            --brand-color: #F28F27; /* Orange from Bucketravel */
+            --brand-color-hover: #d97a1f;
+            --text-dark: #222222;
+            --text-gray: #666666;
+            --bg-light: #f8f9fa; /* Light gray background for sections */
+            --white: #ffffff;
+            --font-main: 'Montserrat', sans-serif;
+            --font-logo: 'Cormorant Garamond', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--white);
+        }
+
+        /* ================= HERO HEADER ================= */
+        .hero-header {
+            position: relative;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 1;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(0, 0, 0, 0.7); 
+            transition: background 0.3s;
+        }
+        
+        .brand-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--white);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .brand-logo svg { margin-bottom: 5px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); }
+        .brand-logo-text { font-family: var(--font-logo); font-size: 1.6rem; font-weight: 600; letter-spacing: 3px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); text-transform: uppercase; }
+
+        .nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
+        .nav-links li a {
+            color: var(--white); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: 0.3s; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); text-transform: uppercase; cursor: pointer;
+        }
+        .nav-links li a:hover, .nav-links li.active a { color: var(--brand-color); }
+        
+        .lang-switch { display: flex; gap: 10px; align-items: center; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .lang-switch a { color: var(--white); text-decoration: none; }
+
+        /* HERO CONTENT */
+        .hero-content {
+            position: relative; z-index: 2; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; margin-top: 80px; 
+        }
+        .hero-subtitle { font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; font-weight: 600; text-shadow: 1px 1px 4px rgba(0,0,0,0.6); }
+        .hero-title { font-size: 4.5rem; font-weight: 800; margin-bottom: 50px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); letter-spacing: 1px; }
+
+        /* SEARCH BAR */
+        .search-container {
+            position: relative; z-index: 2; background: var(--white); border-radius: 50px; display: flex; align-items: center; padding: 10px 20px; width: 90%; max-width: 1000px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .search-box { flex: 1; display: flex; flex-direction: column; padding: 10px 25px; border-right: 1px solid #e0e0e0; text-align: left; }
+        .search-box:last-of-type { border-right: none; }
+        .search-box label { font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; color: #111; text-transform: uppercase;}
+        .search-box input { border: none; outline: none; font-size: 1rem; color: #666; width: 100%; background: transparent; font-family: var(--font-main);}
+        
+        .search-btn {
+            background: var(--brand-color); color: var(--white); border: none; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; margin-left: 10px; box-shadow: 0 4px 10px rgba(242, 143, 39, 0.3);
+        }
+        .search-btn:hover { background: var(--brand-color-hover); transform: scale(1.05); }
+
+        /* ================= GENERAL SECTIONS ================= */
+        .page-section { padding: 80px 0; display: none; }
+        .page-section.active { display: block; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 2.2rem; color: var(--text-dark); margin-bottom: 15px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;}
+        .section-subtitle { text-align: center; color: var(--text-gray); margin-bottom: 50px; font-size: 1.1rem; }
+
+        /* ABOUT SECTION */
+        #about { background-color: var(--white); }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .info-img-wrapper { position: relative; }
+        .info-img { width: 100%; border-radius: 10px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); object-fit: cover; height: 450px;}
+        .info-text h3 { font-size: 2rem; color: var(--brand-color); margin-bottom: 20px; font-weight: 700; text-transform: uppercase;}
+        .info-text p { margin-bottom: 15px; font-size: 1.05rem; color: var(--text-gray); line-height: 1.8;}
+        .info-text ul { list-style: none; margin-top: 25px; }
+        .info-text li { margin-bottom: 15px; font-weight: 500; display: flex; align-items: center; gap: 10px;}
+        .info-text li::before { content: ""; display: inline-block; width: 8px; height: 8px; background-color: var(--brand-color); border-radius: 50%; }
+
+        /* PASSPORT SECTION */
+        #passport { background-color: var(--bg-light); padding: 50px 0;}
+        .passport-section {
+            background-color: var(--white); border-radius: 15px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 4px solid var(--brand-color); text-align: center;
+        }
+        .passport-section h2 { color: var(--text-dark); margin-bottom: 15px; font-size: 1.8rem; font-weight: 700;}
+        .passport-text { color: var(--text-gray); margin-bottom: 20px; }
+        .passport-status { color: var(--brand-color); font-weight: bold; font-size: 1.2rem; margin-bottom: 30px; }
+        .stamps-container { display: flex; gap: 30px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;}
+        .stamp {
+            width: 90px; height: 90px; border-radius: 50%; border: 2px dashed #ccc; display: flex; justify-content: center; align-items: center; color: #999; font-weight: 600; font-size: 0.9rem; text-align: center; text-transform: uppercase; transition: 0.3s;
+        }
+        .stamp:hover { border-color: var(--brand-color); color: var(--brand-color); cursor: pointer;}
+        .passport-hint { color: var(--text-gray); font-style: italic; }
+
+        /* TOURS SECTION */
+        #tours { background-color: var(--white); }
+        .tour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .tour-card {
+            background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column;
+        }
+        .tour-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .tour-img { height: 240px; background-size: cover; background-position: center; position: relative; }
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.7); color: var(--white); padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .tour-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .tour-title { font-size: 1.3rem; color: var(--text-dark); margin-bottom: 15px; font-weight: 700; line-height: 1.4;}
+        .tour-desc { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; line-height: 1.6;}
+        
+        .tour-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #eee; margin-top: auto;}
+        .cultural-index { color: var(--text-gray); font-weight: 500; font-size: 0.9rem;}
+        .cultural-index strong { color: var(--text-dark); }
+        .btn-detail { background: var(--brand-color); color: var(--white); border: none; padding: 10px 20px; border-radius: 5px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.3s; text-transform: uppercase;}
+        .btn-detail:hover { background: var(--brand-color-hover); }
+
+        /* TOUR DETAIL PAGE (TAB CHI TIẾT) */
+        #tour-detail { background-color: var(--bg-light); padding-top: 120px; min-height: 80vh;}
+        .detail-header { text-align: center; margin-bottom: 40px; }
+        .detail-title { font-size: 2.5rem; color: var(--text-dark); font-weight: 800; margin-bottom: 10px;}
+        .detail-subtitle { color: var(--brand-color); font-size: 1.2rem; font-weight: 600;}
+        
+        .detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px;}
+        .detail-main img { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 500px; object-fit: cover;}
+        .detail-content { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);}
+        .detail-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-dark);}
+        .detail-content p { color: var(--text-gray); margin-bottom: 15px;}
+        .detail-content ul { padding-left: 20px; color: var(--text-gray); margin-bottom: 20px;}
+        
+        .detail-sidebar { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: fit-content;}
+        .price-box { border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;}
+        .price-label { color: var(--text-gray); font-size: 0.9rem; text-transform: uppercase; font-weight: 600;}
+        .price-value { font-size: 2rem; color: var(--brand-color); font-weight: 800; margin-top: 5px;}
+        .btn-book { width: 100%; background: var(--brand-color); color: var(--white); padding: 15px; border: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; transition: 0.3s;}
+        .btn-book:hover { background: var(--brand-color-hover);}
+
+        /* WHY US SECTION */
+        #whyus { background-color: var(--white); }
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; text-align: center; margin-top: 50px; }
+        .why-item { padding: 30px; background: var(--bg-light); border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: 0.3s; border: 1px solid #eee;}
+        .why-item:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .why-icon { font-size: 3rem; margin-bottom: 20px; color: var(--brand-color); }
+        .why-title { font-size: 1.3rem; color: var(--text-dark); margin-bottom: 15px; font-weight: 700; text-transform: uppercase;}
+        .why-desc { color: var(--text-gray); font-size: 1rem; line-height: 1.6;}
+
+        /* TRIP PLANNING BANNER */
+        #planning { background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1920&auto=format&fit=crop') center/cover fixed; color: var(--white); text-align: center; position: relative; padding: 100px 0;}
+        .planning-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 1;}
+        .planning-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto;}
+        .planning-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; text-transform: uppercase;}
+        .planning-content p { font-size: 1.1rem; margin-bottom: 30px; line-height: 1.8;}
+        .btn-large { background: var(--brand-color); color: var(--white); padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 700; text-decoration: none; text-transform: uppercase; transition: 0.3s; display: inline-block; cursor: pointer; border: none;}
+        .btn-large:hover { background: var(--brand-color-hover); transform: scale(1.05); }
+
+        /* FOOTER */
+        footer { background-color: #1a1a1a; color: #fff; padding: 60px 20px 20px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; margin-bottom: 40px;}
+        .footer-logo-area { display: flex; flex-direction: column; align-items: flex-start;}
+        .footer-logo { font-family: var(--font-logo); font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 15px; line-height: 1;}
+        .footer-desc { color: #aaa; font-size: 0.95rem; margin-bottom: 20px; }
+        
+        .footer-links h4 { font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 700; color: var(--brand-color);}
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #ccc; text-decoration: none; transition: 0.3s; font-size: 0.95rem; cursor: pointer;}
+        .footer-links a:hover { color: var(--brand-color); }
+        
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #333; color: #888; font-size: 0.9rem; }
+
+        /* MODAL STYLES */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--white); padding: 40px; border-radius: 12px; width: 90%; max-width: 600px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2);}
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: var(--text-gray); transition: 0.3s; line-height: 1;}
+        .close-btn:hover { color: var(--brand-color); }
+        .custom-form { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+        .custom-form label { font-weight: 700; color: var(--text-dark); font-size: 0.95rem; text-transform: uppercase;}
+        .custom-form select, .custom-form input, .custom-form textarea { padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; background: #fafafa;}
+        .custom-form select:focus, .custom-form input:focus { outline: none; border-color: var(--brand-color); background: var(--white);}
+        .custom-form button { background: var(--brand-color); color: var(--white); padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase;}
+        .custom-form button:hover { background: var(--brand-color-hover); }
+    </style>
+</head>
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar" id="mainNav">
+        <a onclick="showPage('home')" class="brand-logo">
+            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22C12 22 10 15 10 10C10 7 12 4 12 4C12 4 14 7 14 10C14 15 12 22 12 22Z" />
+                <path d="M10 14C6 14 4 11 4 8C4 5 7 5 7 5C8.5 7.5 10 10 10 14Z" />
+                <path d="M14 14C18 14 20 11 20 8C20 5 17 5 17 5C15.5 7.5 14 10 14 14Z" />
+                <path d="M8 20C5 20 2 18 2 15C2 12 5 12 5 12C6.5 15 8 17 8 20Z" />
+                <path d="M16 20C19 20 22 18 22 15C22 12 19 12 19 12C17.5 15 16 17 16 20Z" />
+            </svg>
+            <div class="brand-logo-text">Gạo & Sen</div>
+        </a>
+        
+        <ul class="nav-links">
+            <li class="active" id="nav-home"><a onclick="showPage('home')">Trang Chủ</a></li>
+            <li id="nav-about"><a onclick="scrollToSection('about')">Chuyện nhà Gạo & Sen</a></li>
+            <li id="nav-tours"><a onclick="scrollToSection('tours')">Trip nhà Gạo & Sen có gì ? ▾</a></li>
+            <li id="nav-whyus"><a onclick="scrollToSection('whyus')">Ưu đãi Trip</a></li>
+            <li id="nav-detail" style="display:none;"><a onclick="showPage('tour-detail')">CHI TIẾT TRIP</a></li>
+            <li><a onclick="openModal('modalCustomize')">Trip Planning</a></li>
+            <li class="lang-switch">
+                <a href="#">EN</a> | <a href="#" style="color: var(--brand-color);">VN</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- ================= PAGE: HOME ================= -->
+    <div id="page-home" class="page-section active">
+        <!-- HERO HEADER -->
+        <div class="hero-header">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p class="hero-subtitle">TẤT CẢ TRẢI NGHIỆM CÙNG GẠO & SEN</p>
+                <h1 class="hero-title">SAY YES TO NEW ADVENTURE!</h1>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <label>Địa điểm</label>
+                        <input type="text" placeholder="Chọn địa điểm">
+                    </div>
+                    <div class="search-box">
+                        <label>Danh Mục Trip</label>
+                        <input type="text" placeholder="Chọn Danh Mục">
+                    </div>
+                    <div class="search-box">
+                        <label>Thời gian bắt đầu</label>
+                        <input type="text" placeholder="Khi nào bạn sẵn sàng?">
+                    </div>
+                    <button class="search-btn" onclick="openModal('modalQuiz')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <div class="container">
+                <div class="info-grid">
+                    <div class="info-text">
+                        <h2 class="section-title" style="text-align: left; margin-bottom: 5px;">CHÀO BẠN THÂN!</h2>
+                        <h3 style="color: var(--brand-color); margin-bottom: 25px;">MÌNH LÀ GẠO & SEN</h3>
+                        <p>Gạo & Sen Travel ra đời với khát khao bảo tồn và lan tỏa giá trị văn hóa truyền thống. Mỗi chuyến đi không chỉ là những bức ảnh check-in vô hồn, mà là cơ hội để bạn "chạm" vào lịch sử, "nếm" trọn hương vị bản địa và "nghe" những thanh âm mộc mạc của quê hương.</p>
+                        <p>Chúng mình luôn mong muốn có thể đồng hành để mang đến những điểm đến mới lạ với mức chi phí xứng đáng, để tất cả mọi người đều có những khoảnh khắc kỷ niệm đáng nhớ về những chuyến du lịch thật tuyệt vời.</p>
+                        <ul>
+                            <li>Lồng ghép 100% hoạt động văn hóa truyền thống.</li>
+                            <li>Ủng hộ và phát triển kinh tế cho các làng nghề địa phương.</li>
+                            <li>Hướng dẫn viên là những "Người kể chuyện" bản địa thực thụ.</li>
+                        </ul>
+                    </div>
+                    <div class="info-img-wrapper">
+                        <!-- ẢNH ABOUT US (RUỘNG BẬC THANG TỪ TÊN FILE ĐÍNH KÈM) -->
+                        <img src="1_nhung_thua_ruong_20231029191840.jpg" alt="Ruộng bậc thang xanh ngát" class="info-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASSPORT SECTION -->
+        <section id="passport">
+            <div class="container">
+                <div class="passport-section">
+                    <h2>HÀNH TRÌNH & HỘ CHIẾU VĂN HÓA CỦA BẠN</h2>
+                    <p class="passport-text">Chưa có trip nào. Hãy thêm từ bản đồ, danh sách trip hoặc phần thiết kế.</p>
+                    <div class="passport-status">HỘ CHIẾU VĂN HÓA: 0/5 CON DẤU</div>
+                    <div class="stamps-container">
+                        <div class="stamp">Thủ công</div>
+                        <div class="stamp">Âm nhạc</div>
+                        <div class="stamp">Ẩm thực</div>
+                        <div class="stamp">Lễ hội</div>
+                        <div class="stamp">Tâm linh</div>
+                    </div>
+                    <p class="passport-hint">Thêm "Hội An: Đèn lồng và Bài chòi" để lấy thêm 3 con dấu.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOURS SECTION -->
+        <section id="tours">
+            <div class="container">
+                <h2 class="section-title">CÁC TRIP HOT NHÀ GẠO & SEN</h2>
+                <p class="section-subtitle">Mỗi chuyến đi là một cuốn phim tư liệu mà bạn là nhân vật chính.</p>
+                
+                <div class="tour-grid">
+                    <!-- Tour 1 -->
+                    <div class="tour-card" onmouseenter="playSound()">
+                        <!-- ẢNH NGHE PHÙ SA HÁT -->
+                        <div class="tour-img" style="background-image: url('61716774.jpg');">
+                            <span class="badge">Miền Tây sông nước</span>
+                        </div>
+                        <div class="tour-content">
+                            <h3 class="tour-title">Nghe Phù Sa Hát</h3>
+                            <p class="tour-desc">Xuôi dòng Mekong, đi chợ nổi lúc tinh mơ, nghe Đờn Ca Tài Tử và học làm bánh dân gian cùng ngoại.</p>
+                            <div class="tour-meta">
+                                <span class="cultural-index">Chạm văn hóa: <strong>5/5</strong></span>
+                                <button class="btn-detail" onclick="viewTourDetail('Nghe Phù Sa Hát', '3.500.000 VNĐ', '61716774.jpg')">Chi tiết Trip</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour 2 -->
+                    <div class="tour-card" onmouseenter="playSound()">
+                        <!-- ẢNH MÂY NGÀN VẮT NÚI -->
+                        <div class="tour-img" style="background-image: url('nui-doi-quan-ba-1.jpg');">
+                            <span class="badge">Vùng cao Tây Bắc</span>
+                        </div>
+                        <div class="tour-content">
+                            <h3 class="tour-title">Mây Ngàn Vắt Núi</h3>
+                            <p class="tour-desc">Ngủ homestay nhà trình tường, nhuộm chàm củ nâu và nhấp chén rượu ngô mèn mén bên bếp lửa.</p>
+                            <div class="tour-meta">
+                                <span class="cultural-index">Chạm văn hóa: <strong>5/5</strong></span>
+                                <button class="btn-detail" onclick="viewTourDetail('Mây Ngàn Vắt Núi', '4.200.000 VNĐ', 'nui-doi-quan-ba-1.jpg')">Chi tiết Trip</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour 3 -->
+                    <div class="tour-card" onmouseenter="playSound()">
+                        <!-- ẢNH TREKKING (Dùng chung ruộng bậc thang) -->
+                        <div class="tour-img" style="background-image: url('1_nhung_thua_ruong_20231029191840.jpg');">
+                            <span class="badge">Chinh phục / Trekking</span>
+                        </div>
+                        <div class="tour-content">
+                            <h3 class="tour-title">Bước Chân Đại Ngàn</h3>
+                            <p class="tour-desc">Trekking băng qua những cánh rừng nguyên sinh hùng vĩ, sinh tồn và tìm hiểu thảo dược cùng người bản địa.</p>
+                            <div class="tour-meta">
+                                <span class="cultural-index">Chạm văn hóa: <strong>4/5</strong></span>
+                                <button class="btn-detail" onclick="viewTourDetail('Bước Chân Đại Ngàn', '5.500.000 VNĐ', '1_nhung_thua_ruong_20231029191840.jpg')">Chi tiết Trip</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tour 4 -->
+                    <div class="tour-card" onmouseenter="playSound()">
+                        <!-- ẢNH HỘI AN -->
+                        <div class="tour-img" style="background-image: url('du-lich-hoi-an-ivivu-img1.jpg');">
+                            <span class="badge">Di sản Miền Trung</span>
+                        </div>
+                        <div class="tour-content">
+                            <h3 class="tour-title">Hội An: Đèn Lồng & Bài Chòi</h3>
+                            <p class="tour-desc">Dạo bước phố cổ, tự tay làm chiếc đèn lồng của riêng mình và hòa mình vào điệu hô hát Bài Chòi rộn rã.</p>
+                            <div class="tour-meta">
+                                <span class="cultural-index">Chạm văn hóa: <strong>5/5</strong></span>
+                                <button class="btn-detail" onclick="viewTourDetail('Hội An: Đèn Lồng & Bài Chòi', '3.800.000 VNĐ', 'du-lich-hoi-an-ivivu-img1.jpg')">Chi tiết Trip</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour 5 -->
+                    <div class="tour-card" onmouseenter="playSound()">
+                        <!-- ẢNH BÀU TRÚC -->
+                        <div class="tour-img" style="background-image: url('gombautruc02.jpg');">
+                            <span class="badge">Làng nghề truyền thống</span>
+                        </div>
+                        <div class="tour-content">
+                            <h3 class="tour-title">Đất Nung Bàu Trúc</h3>
+                            <p class="tour-desc">Thăm làng gốm cổ nhất Đông Nam Á, tìm hiểu nghệ thuật nặn gốm không bàn xoay của người Chăm.</p>
+                            <div class="tour-meta">
+                                <span class="cultural-index">Chạm văn hóa: <strong>4/5</strong></span>
+                                <button class="btn-detail" onclick="viewTourDetail('Đất Nung Bàu Trúc', '2.900.000 VNĐ', 'gombautruc02.jpg')">Chi tiết Trip</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tour 6 -->
+                    <div class="tour-card" onmouseenter="playSound()">
+                        <!-- ẢNH HUẾ -->
+                        <div class="tour-img" style="background-image: url('hue-thuoc-mien-nao-thumbnail.jpg');">
+                            <span class="badge">Văn hóa Tâm linh</span>
+                        </div>
+                        <div class="tour-content">
+                            <h3 class="tour-title">Chuông Ngân Cố Đô</h3>
+                            <p class="tour-desc">Về Huế ngắm mưa bay, thưởng thức nhã nhạc cung đình, học thiền trà và tìm hiểu kiến trúc lăng tẩm.</p>
+                            <div class="tour-meta">
+                                <span class="cultural-index">Chạm văn hóa: <strong>5/5</strong></span>
+                                <button class="btn-detail" onclick="viewTourDetail('Chuông Ngân Cố Đô', '4.500.000 VNĐ', 'hue-thuoc-mien-nao-thumbnail.jpg')">Chi tiết Trip</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY US SECTION -->
+        <section id="whyus">
+            <div class="container">
+                <h2 class="section-title">GIỮA VÔ VÀN LỰA CHỌN TẠI SAO LẠI VA VÀO NHAU?</h2>
+                <p class="section-subtitle">Với Nhà Gạo & Sen, mỗi chuyến đi là một chuỗi kết nối chân thực nhất.</p>
+                
+                <div class="why-grid">
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <h3 class="why-title">Văn Hóa Làm Cốt Lõi</h3>
+                        <p class="why-desc">Mọi hành trình đều xoay quanh việc tìm hiểu, trải nghiệm sâu sắc văn hóa địa phương.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3 class="why-title">Cá Nhân Hóa Cao</h3>
+                        <p class="why-desc">Khung chương trình linh hoạt, được may đo riêng cho từng gia đình, doanh nghiệp.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h3 class="why-title">Du Lịch Bền Vững</h3>
+                        <p class="why-desc">Trích lợi nhuận để hỗ trợ các lớp học giữ gìn làng nghề truyền thống đang mai một.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRIP PLANNING SECTION -->
+        <section id="planning">
+            <div class="planning-overlay"></div>
+            <div class="container">
+                <div class="planning-content">
+                    <h2>TRIP PLANNING</h2>
+                    <p>Bạn mong đợi một hành trình cùng gia đình, bạn bè hay đặc biệt để có thể gia tăng sự kết nối thì quá dễ với Gạo & Sen. Chúng mình sẽ mang đến cho bạn một chuyến đi đáng nhớ với những người yêu thương.</p>
+                    <button class="btn-large" onclick="openModal('modalCustomize')">Đặt Gạo & Sen làm hành trình riêng</button>
+                </div>
+            </div>
+        </section>
+    </div> <!-- END PAGE HOME -->
+
+    <!-- ================= PAGE: TOUR DETAIL ================= -->
+    <div id="page-tour-detail" class="page-section">
+        <section id="tour-detail">
+            <div class="container">
+                <div class="detail-header">
+                    <h2 class="detail-title" id="dt-title">Tên Tour Sẽ Hiển Thị Ở Đây</h2>
+                    <p class="detail-subtitle">Trải nghiệm độc bản cùng Gạo & Sen</p>
+                </div>
+                
+                <div class="detail-grid">
+                    <div class="detail-main">
+                        <img id="dt-img" src="" alt="Tour Image">
+                        <div class="detail-content">
+                            <h3>Tổng Quan Hành Trình</h3>
+                            <p>Đây là hành trình được thiết kế đặc biệt nhằm mang lại những trải nghiệm văn hóa sâu sắc nhất. Bạn sẽ được đắm mình vào không gian truyền thống, tương tác với người dân bản địa và tìm hiểu những giá trị lịch sử lâu đời.</p>
+                            
+                            <h3>Lịch Trình Tóm Tắt</h3>
+                            <ul>
+                                <li><strong>Ngày 1:</strong> Đón khách, nhận phòng homestay bản địa. Tham gia buổi tiệc chào mừng với các món ăn truyền thống.</li>
+                                <li><strong>Ngày 2:</strong> Khám phá làng nghề, tự tay làm các sản phẩm thủ công dưới sự hướng dẫn của nghệ nhân.</li>
+                                <li><strong>Ngày 3:</strong> Tham gia lễ hội địa phương (nếu có), mua sắm đặc sản và kết thúc hành trình.</li>
+                            </ul>
+                            
+                            <h3>Dịch Vụ Bao Gồm</h3>
+                            <ul>
+                                <li>Xe di chuyển đời mới trong suốt hành trình.</li>
+                                <li>Lưu trú tại homestay hoặc khách sạn đậm chất bản địa.</li>
+                                <li>Các bữa ăn đặc sản địa phương.</li>
+                                <li>Vé tham quan và chi phí trải nghiệm workshop.</li>
+                                <li>Hướng dẫn viên / Lead nhiệt tình, am hiểu văn hóa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-sidebar">
+                        <div class="price-box">
+                            <div class="price-label">Giá trọn gói chỉ từ</div>
+                            <div class="price-value" id="dt-price">0 VNĐ</div>
+                        </div>
+                        <ul style="list-style: none; margin-bottom: 20px; color: var(--text-gray); font-size: 0.95rem;">
+                            <li style="margin-bottom: 10px;">🕒 Thời lượng: 3 Ngày 2 Đêm</li>
+                            <li style="margin-bottom: 10px;">🗓️ Khởi hành: Thứ 6 hàng tuần</li>
+                            <li style="margin-bottom: 10px;">👥 Số lượng: Nhóm tối đa 12 người</li>
+                            <li style="margin-bottom: 10px;">🪷 Chạm văn hóa: 5/5</li>
+                        </ul>
+                        <button class="btn-book" onclick="alert('Cảm ơn bạn đã đặt tour. Gạo & Sen sẽ liên hệ với bạn ngay!')">ĐẶT TOUR NGAY</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- END PAGE TOUR DETAIL -->
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo-area">
+                <div class="footer-logo">GẠO & SEN</div>
+                <p class="footer-desc">Gạo & Sen Travel - Cái nôi trải nghiệm là tên gọi đầy đủ cho sự đam mê tìm kiếm và gìn giữ văn hóa truyền thống Việt Nam.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Về Gạo & Sen</h4>
+                <ul>
+                    <li><a onclick="showPage('home'); setTimeout(() => scrollToSection('about'), 100);">Câu chuyện của chúng mình</a></li>
+                    <li><a onclick="showPage('home'); setTimeout(() => scrollToSection('tours'), 100);">Trip Đậm Chất Bản Địa</a></li>
+                    <li><a onclick="showPage('home'); setTimeout(() => scrollToSection('planning'), 100);">Trip Planning</a></li>
+                    <li><a href="#">Tin tức & Ưu đãi</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Chính sách</h4>
+                <ul>
+                    <li><a href="#">Quy định & Hoàn hủy</a></li>
+                    <li><a href="#">Trường hợp khẩn cấp</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Liên hệ</h4>
+                <ul>
+                    <li><a href="#">Hotline: 0924 211 579</a></li>
+                    <li><a href="#">Mail: hello@gaosentravel.vn</a></li>
+                    <li><a href="#">Address: Quận 3, TP. Hồ Chí Minh</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Gao & Sen Travel. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+    <div id="modalCustomize" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modalCustomize')">&times;</span>
+            <h2 class="section-title" style="font-size: 1.8rem; text-align: left; margin-bottom: 20px;">TRIP PLANNING 🛠️</h2>
+            <form class="custom-form" onsubmit="event.preventDefault(); alert('Yêu cầu đã gửi cho nhà Gạo & Sen!'); closeModal('modalCustomize');">
+                 <label>Bạn đi cùng ai?</label>
+                <select required>
+                    <option value="">-- Chọn nhóm của bạn --</option>
+                    <option>Gia đình</option>
+                    <option>Công ty</option>
+                    <option>Cặp đôi / Bạn bè</option>
+                </select>
+                <label>Sở thích (Vibe) chuyến đi?</label>
+                <select required>
+                    <option value="">-- Chọn phong cảnh bạn thích --</option>
+                    <option>Lên Rừng / Núi non hùng vĩ</option>
+                    <option>Xuống Biển / Đảo hoang sơ</option>
+                    <option>Văn hóa / Lịch sử / Tâm linh</option>
+                </select>
+                <label>Ngân sách dự kiến (VNĐ/người):</label>
+                <input type="text" placeholder="VD: 3.000.000 - 5.000.000 VNĐ">
+                <button type="submit">GỬI YÊU CẦU ĐẾN GẠO & SEN</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalQuiz" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-btn" onclick="closeModal('modalQuiz')">&times;</span>
+            <h2 class="section-title" style="font-size: 1.8rem; margin-bottom: 20px;">Khám Phá Gu Du Lịch</h2>
+            <p style="margin-bottom: 20px; color: var(--text-gray);">Trả lời câu hỏi để hệ thống Gạo & Sen đề xuất tour có sẵn phù hợp nhất với bạn!</p>
+            <button class="search-btn" style="width:auto; padding: 15px 40px; border-radius: 30px; font-size: 1rem; margin: 0 auto;" onclick="alert('Bạn hợp với tour Trải nghiệm văn hóa!'); closeModal('modalQuiz');">BẮT ĐẦU QUIZ</button>
+        </div>
+    </div>
+
+    <script>
+        // Điều hướng giữa các trang (SPA cơ bản)
+        function showPage(pageId) {
+            // Ẩn tất cả các page-section
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Hiện trang được chọn
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            // Cuộn lên đầu trang
+            window.scrollTo(0, 0);
+
+            // Cập nhật trạng thái active trên Navbar
+            document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+            if(pageId === 'home') {
+                document.getElementById('nav-home').classList.add('active');
+                document.getElementById('nav-detail').style.display = 'none'; // Ẩn tab chi tiết
+            } else if (pageId === 'tour-detail') {
+                document.getElementById('nav-detail').style.display = 'block'; // Hiện tab chi tiết
+                document.getElementById('nav-detail').classList.add('active');
+            }
+        }
+
+        // Cuộn mượt đến section trên trang Home
+        function scrollToSection(sectionId) {
+            // Nếu đang không ở trang chủ, chuyển về trang chủ trước
+            if (!document.getElementById('page-home').classList.contains('active')) {
+                showPage('home');
+                setTimeout(() => {
+                    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Hàm khi bấm "Chi tiết Trip"
+        function viewTourDetail(title, price, imgSrc) {
+            // Cập nhật dữ liệu vào trang Detail
+            document.getElementById('dt-title').innerText = title;
+            document.getElementById('dt-price').innerText = price;
+            document.getElementById('dt-img').src = imgSrc;
+            
+            // Chuyển sang trang Detail
+            showPage('tour-detail');
+        }
+
+        // Modals
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } }
+        function playSound() { console.log("Play sound"); }
+
+        // Đổi màu Navbar khi cuộn
+        window.onscroll = function() {
+            var navbar = document.getElementById("mainNav");
+            if (window.scrollY > 50) {
+                navbar.style.background = "rgba(0, 0, 0, 0.9)";
+            } else {
+                navbar.style.background = "rgba(0, 0, 0, 0.7)";
+            }
+        };
+    </script>
+</body>
+</html>
